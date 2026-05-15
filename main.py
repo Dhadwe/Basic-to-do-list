@@ -1,11 +1,16 @@
 
+#main list
 to_do_list = []
 
+
+#displays the list
 def display_list():
     print("-" * 60)    
     for i, v in enumerate(to_do_list):
         print(f"{i}: {v}") 
 
+
+#chooses what to do(the main function)
 def choose_function():
     print("-" * 60)    
     print("1 = add to list")
@@ -26,6 +31,7 @@ def choose_function():
     else: 
         print("please enter either 1,2,3 or 4 ")
 
+#adds a task to list
 def add_to_list():
     print("-" * 60)    
     to_do = input("enter the task(type END to quit and SHOW to see list): ")
@@ -39,7 +45,7 @@ def add_to_list():
         add_to_list()
 
 
-
+#marks a task as done (deletes it)
 def mark_as_done():
     print("-" * 60)    
     done = input("Type the number corresponding to the task u want to mark as done(type END to exit and SHOW to see list): ")
