@@ -1,61 +1,132 @@
+from PySide6.QtWidgets import (QApplication, QMainWindow, QPushButton,QVBoxLayout, QWidget, QLineEdit, QListWidget)
+import sys
 
-#main list
-to_do_list = []
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("To-Do List")
+        layout = QVBoxLayout()
+        central = QWidget()
 
+        self.input = QLineEdit()
+        self.input.setPlaceholderText("Enter a task here")
 
-#displays the list
-def display_list():
-    print("-" * 60)    
-    for i, v in enumerate(to_do_list):
-        print(f"{i}: {v}") 
+        self.button = QPushButton("Add task")
+        self.button.clicked.connect(self.add_to_list)
 
+        self.to_do_list = QListWidget() 
 
-#chooses what to do(the main function)
-def choose_function():
-    print("-" * 60)    
-    print("1 = add to list")
-    print("2 = mark as done")
-    print("3 = show to do list")
-    print("4 = Quit")
+        self.delete_button = QPushButton("Mark as done")
+        self.delete_button.clicked.connect(self.mark_as_done)
 
-    function = int(input("Choose 1, 2, 3 or 4 "))
-    if function == 1:
-        add_to_list()
-    elif function == 2:
-        mark_as_done()
-    elif function == 3:
-        display_list()
-        choose_function()
-    elif function == 4:
-        quit()
-    else: 
-        print("please enter either 1,2,3 or 4 ")
+        layout.addWidget(self.input)
+        layout.addWidget(self.button)
+        layout.addWidget(self.to_do_list) 
+        layout.addWidget(self.delete_button)
 
-#adds a task to list
-def add_to_list():
-    print("-" * 60)    
-    to_do = input("enter the task(type END to quit and SHOW to see list): ")
-    if to_do ==  "END":
-        choose_function()
-    elif to_do == "SHOW":
-        display_list()
-        add_to_list()
-    else:    
-        to_do_list.append(to_do)
-        add_to_list()
+        central.setLayout(layout)
+        self.setCentralWidget(central)
+        self.setStyleSheet("""
+        QMainWindow, QWidget {
+        background-color: #1e1e2e;
+        color: #cdd6f4;
+        font-family: 'JetBrains Mono', 'Consolas', monospace;
+        font-size: 13px;
+    }
 
+    QLineEdit {
+        background-color: #313244;
+        color: #cdd6f4;
+        border: 2px solid #45475a;
+        border-radius: 8px;
+        padding: 8px 12px;
+        selection-background-color: #cba6f7;
+        selection-color: #1e1e2e;
+    }
+    QLineEdit:focus {
+        border: 2px solid #cba6f7;
+    }
 
-#marks a task as done (deletes it)
-def mark_as_done():
-    print("-" * 60)    
-    done = input("Type the number corresponding to the task u want to mark as done(type END to exit and SHOW to see list): ")
-    if done == "END":
-        choose_function()
-    elif done == "SHOW":
-        display_list()
-        mark_as_done()
-    else:
-        del to_do_list[int(done)]
-        mark_as_done()
+    /* Add button — Mocha green */
+    QPushButton {
+        background-color: #a6e3a1;
+        color: #1e1e2e;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-weight: bold;
+    }
+    QPushButton:hover {
+        background-color: #94e2d5;
+    }
+    QPushButton:pressed {
+        background-color: #89dceb;
+    }
 
-choose_function()
+    /* Danger button — Mocha red */
+    QPushButton#danger {
+        background-color: #f38ba8;
+        color: #1e1e2e;
+    }
+    QPushButton#danger:hover {
+        background-color: #eba0ac;
+    }
+    QPushButton#danger:pressed {
+        background-color: #e8829a;
+    }
+
+    QListWidget {
+        background-color: #181825;
+        color: #cdd6f4;
+        border: 2px solid #45475a;
+        border-radius: 8px;
+        padding: 4px;
+        outline: none;
+    }
+    QListWidget::item {
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin: 2px 0px;
+    }
+    QListWidget::item:selected {
+        background-color: #313244;
+        color: #cba6f7;
+    }
+    QListWidget::item:hover {
+        background-color: #2a2a3d;
+    }
+
+    QScrollBar:vertical {
+        background: #181825;
+        width: 8px;
+        border-radius: 4px;
+    }
+    QScrollBar::handle:vertical {
+        background: #45475a;
+        border-radius: 4px;
+        min-height: 20px;
+    }
+    QScrollBar::handle:vertical:hover {
+        background: #cba6f7;
+    }
+    QScrollBar::add-line:vertical,
+    QScrollBar::sub-line:vertical {
+        height: 0px;
+    }                       
+""")
+
+    def add_to_list(self):
+        task = self.input.text()        # get text FROM the input
+        if task:                        # don't add empty tasks
+            self.to_do_list.addItem(task)  # add it TO the list widget
+            self.input.clear()          # clear the input box after adding
+
+    def mark_as_done(self):
+        selected = self.to_do_list.currentRow()  # get selected item index
+        if selected >= 0:                         # -1 means nothing selected
+            self.to_do_list.takeItem(selected)    # remove it
+
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+sys.exit(app.exec())
