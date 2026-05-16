@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         central.setLayout(layout)
         self.setCentralWidget(central)
         self.setStyleSheet("""
-        QMainWindow, QWidget {
+    QMainWindow, QWidget {
         background-color: #1e1e2e;
         color: #cdd6f4;
         font-family: 'JetBrains Mono', 'Consolas', monospace;
@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
     QLineEdit {
         background-color: #313244;
         color: #cdd6f4;
-        border: 2px solid #45475a;
+        border: 2px solid #6c7086;
         border-radius: 8px;
         padding: 8px 12px;
         selection-background-color: #cba6f7;
@@ -47,9 +47,8 @@ class MainWindow(QMainWindow):
         border: 2px solid #cba6f7;
     }
 
-    /* Add button — Mocha green */
     QPushButton {
-        background-color: #a6e3a1;
+        background-color: #cba6f7;
         color: #1e1e2e;
         border: none;
         border-radius: 8px;
@@ -57,28 +56,31 @@ class MainWindow(QMainWindow):
         font-weight: bold;
     }
     QPushButton:hover {
-        background-color: #94e2d5;
+        background-color: #b4befe;
     }
     QPushButton:pressed {
-        background-color: #89dceb;
+        background-color: #7287fd;
     }
 
-    /* Danger button — Mocha red */
     QPushButton#danger {
-        background-color: #f38ba8;
-        color: #1e1e2e;
+        background-color: #313244;
+        color: #cba6f7;
+        border: 2px solid #cba6f7;
     }
     QPushButton#danger:hover {
-        background-color: #eba0ac;
+        background-color: #45475a;
+        color: #f38ba8;
+        border-color: #f38ba8;
     }
     QPushButton#danger:pressed {
-        background-color: #e8829a;
+        background-color: #f38ba8;
+        color: #1e1e2e;
     }
 
     QListWidget {
         background-color: #181825;
         color: #cdd6f4;
-        border: 2px solid #45475a;
+        border: 2px solid #6c7086;
         border-radius: 8px;
         padding: 4px;
         outline: none;
@@ -89,11 +91,12 @@ class MainWindow(QMainWindow):
         margin: 2px 0px;
     }
     QListWidget::item:selected {
-        background-color: #313244;
+        background-color: #45475a;
         color: #cba6f7;
+        border-left: 3px solid #cba6f7;
     }
-    QListWidget::item:hover {
-        background-color: #2a2a3d;
+    QListWidget::item:hover:!selected {
+        background-color: #2a273f;
     }
 
     QScrollBar:vertical {
@@ -102,7 +105,7 @@ class MainWindow(QMainWindow):
         border-radius: 4px;
     }
     QScrollBar::handle:vertical {
-        background: #45475a;
+        background: #6c7086;
         border-radius: 4px;
         min-height: 20px;
     }
@@ -112,7 +115,7 @@ class MainWindow(QMainWindow):
     QScrollBar::add-line:vertical,
     QScrollBar::sub-line:vertical {
         height: 0px;
-    }                       
+    }        
 """)
 
     def add_to_list(self):
